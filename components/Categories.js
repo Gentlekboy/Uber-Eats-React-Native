@@ -44,7 +44,7 @@ export default function Categories() {
     >
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {items.map((item, index) => (
-          <View style={{ marginRight: 30, alignItems: "center" }}>
+          <View key={index} style={{ marginRight: 30, alignItems: "center" }}>
             <Image
               source={item.image}
               style={{ height: 50, width: 40, resizeMode: "contain" }}
