@@ -12,6 +12,8 @@ const YELP_API_KEY =
 
 export default function Home() {
   const [restaurantData, setRestaurantData] = useState(localRestaurants);
+  const [city, setCity] = useState("San Fransisco");
+  const [activeTab, setActiveTab] = useState("Delivery");
 
   const getRestaurantsFromYelp = () => {
     const yelpUrl =
@@ -27,7 +29,13 @@ export default function Home() {
       .then((res) => {
         res.json();
       })
-      .then((json) => setRestaurantData(json.businesses))
+      .then((json) =>
+        setRestaurantData(
+          json.businesses.filter((business) =>
+            business.transactions.includes(activeTab.toLowerCase())
+          )
+        )
+      )
       .catch((err) => console.log(err));
   };
 
@@ -38,8 +46,8 @@ export default function Home() {
   return (
     <SafeAreaView style={{ backgroundColor: "#eee", flex: 1 }}>
       <View style={{ backgroundColor: "white", padding: 16 }}>
-        <HeaderTab />
-        <SearchBar />
+        <HeaderTab activeTab={activeTab} setActiveTab={setActiveTab} />
+        <SearchBar cityHandler={setCity} />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
